@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="寻找生活中的莫奈配色 — 上传你的色彩作品，发现光影之美">
+  <meta name="theme-color" content="#F5F0E8">
+  <title>寻找生活中的莫奈配色</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page-bg" aria-hidden="true"></div>
+
+  <header class="header">
+    <div class="header-inner">
+      <p class="header-tag">Monet Palette</p>
+      <h1 class="header-title">寻找生活中的<br>莫奈配色</h1>
+      <p class="header-desc">用镜头捕捉光影，在平凡日常里发现印象派的温柔色调</p>
+    </div>
+    <div class="header-wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+        <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,80 L0,80 Z" fill="currentColor"/>
+      </svg>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- 上传区域 -->
+    <section class="upload-section" aria-labelledby="upload-title">
+      <h2 id="upload-title" class="section-title">分享你的色彩</h2>
+      <p class="section-desc">上传一张照片，我们将为你提取其中的莫奈式配色</p>
+
+      <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="点击或拖拽上传图片">
+        <input type="file" id="fileInput" accept="image/*" hidden>
+        <div class="upload-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="1.2" opacity="0.4"/>
+            <path d="M20 12v16M12 20h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p class="upload-text">轻触上传作品</p>
+        <p class="upload-hint">支持 JPG · PNG · WEBP</p>
+      </div>
+
+      <!-- 预览与配色 -->
+      <div class="preview-panel" id="previewPanel" hidden>
+        <div class="preview-image-wrap">
+          <img id="previewImage" alt="预览图片">
+        </div>
+        <div class="palette-section">
+          <h3 class="palette-title">提取的配色</h3>
+          <div class="palette-colors" id="paletteColors"></div>
+          <p class="palette-mood" id="paletteMood"></p>
+        </div>
+        <form class="work-form" id="workForm">
+          <label class="form-label" for="workTitle">作品标题</label>
+          <input type="text" id="workTitle" class="form-input" placeholder="为你的色彩命名…" maxlength="30">
+          <label class="form-label" for="workDesc">色彩感悟</label>
+          <textarea id="workDesc" class="form-textarea" placeholder="描述你在这幅画面里感受到的光与情绪…" maxlength="120" rows="3"></textarea>
+          <button type="submit" class="btn-primary" id="publishBtn">发布到画廊</button>
+          <button type="button" class="btn-ghost" id="cancelBtn">重新选择</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- 色调筛选 -->
+    <section class="filter-section" aria-labelledby="filter-title">
+      <h2 id="filter-title" class="section-title">探索画廊</h2>
+      <div class="filter-tabs" role="tablist">
+        <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">全部</button>
+        <button class="filter-tab" data-filter="warm" role="tab" aria-selected="false">暖调</button>
+        <button class="filter-tab" data-filter="cool" role="tab" aria-selected="false">冷调</button>
+        <button class="filter-tab" data-filter="pastel" role="tab" aria-selected="false">柔彩</button>
+        <button class="filter-tab" data-filter="earth" role="tab" aria-selected="false">大地</button>
+      </div>
+    </section>
+
+    <!-- 作品画廊 -->
+    <section class="gallery-section" aria-label="作品画廊">
+      <div class="gallery" id="gallery">
+        <div class="gallery-empty" id="galleryEmpty">
+          <div class="empty-icon" aria-hidden="true">🎨</div>
+          <p>画廊尚空，等待第一抹色彩</p>
+          <p class="empty-hint">上传你的第一张作品，开启莫奈之旅</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-quote">"色彩是我的终日痴迷。"</p>
+    <p class="footer-author">— 克劳德·莫奈</p>
+    <p class="footer-copy">寻找生活中的莫奈配色 · 艺术交流平台</p>
+  </footer>
+
+  <!-- 作品详情弹窗 -->
+  <dialog class="modal" id="workModal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose" aria-label="关闭">&times;</button>
+      <img class="modal-image" id="modalImage" alt="">
+      <div class="modal-body">
+        <h3 class="modal-title" id="modalTitle"></h3>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="modal-palette" id="modalPalette"></div>
+        <p class="modal-mood" id="modalMood"></p>
+        <p class="modal-date" id="modalDate"></p>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
